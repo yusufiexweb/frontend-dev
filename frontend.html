@@ -1,0 +1,1809 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" data-theme="red">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>NOVA333X // Cyberpunk Swiss Portfolio & Bento Studio</title>
+
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Syne:wght@700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+
+<!-- FontAwesome Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root {
+--accent-color: #ff3333;
+--accent-glow: rgba(255, 51, 51, 0.35);
+--bg-base: #030305;
+--card-bg: #0a0a0f;
+--card-border: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="purple"] {
+--accent-color: #a855f7;
+--accent-glow: rgba(168, 85, 247, 0.35);
+}
+
+[data-theme="emerald"] {
+--accent-color: #10b981;
+--accent-glow: rgba(16, 185, 129, 0.35);
+}
+
+[data-theme="blue"] {
+--accent-color: #3b82f6;
+--accent-glow: rgba(59, 130, 246, 0.35);
+}
+
+*,
+*::before,
+*::after {
+box-sizing: border-box;
+}
+
+html {
+scroll-padding-top: 88px;
+-webkit-text-size-adjust: 100%;
+text-size-adjust: 100%;
+}
+
+body {
+font-family: 'Space Grotesk', sans-serif;
+background-color: var(--bg-base);
+color: #f1f1f5;
+cursor: auto !important;
+min-width: 320px;
+overflow-x: clip;
+transition: background-color 0.4s ease;
+}
+
+a,
+button,
+summary,
+[role="button"] {
+cursor: pointer;
+-webkit-tap-highlight-color: transparent;
+}
+
+input,
+textarea,
+select {
+cursor: text;
+}
+
+img,
+svg,
+video {
+max-width: 100%;
+}
+
+.mono-text {
+font-family: 'JetBrains Mono', monospace;
+}
+
+/* Ambient Cyber Grid & Glow */
+.cyber-grid {
+position: fixed;
+inset: 0;
+z-index: -2;
+background-image:
+linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+background-size: 50px 50px;
+pointer-events: none;
+}
+
+.cyber-glow {
+position: fixed;
+inset: 0;
+z-index: -1;
+background:
+radial-gradient(circle at 20% 20%, var(--accent-glow) 0%, transparent 45%),
+radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+pointer-events: none;
+}
+
+/* Desktop Dropdown Menus */
+.dropdown-menu {
+opacity: 0;
+pointer-events: none;
+transform: translateY(12px) skewX(-2deg);
+transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.group:hover .dropdown-menu {
+opacity: 1;
+pointer-events: auto;
+transform: translateY(0) skewX(0deg);
+}
+
+/* Bento Grid Cards */
+.bento-card {
+background: var(--card-bg);
+border: 1px solid var(--card-border);
+border-radius: 20px;
+position: relative;
+overflow: hidden;
+transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+}
+
+.bento-card::before {
+content: '';
+position: absolute;
+inset: 0;
+background: radial-gradient(
+800px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+var(--accent-glow),
+transparent 40%
+);
+opacity: 0;
+transition: opacity 0.3s;
+pointer-events: none;
+}
+
+.bento-card:hover::before {
+opacity: 1;
+}
+
+.bento-card:hover {
+transform: translateY(-4px);
+border-color: var(--accent-color);
+box-shadow: 0 30px 60px -15px var(--accent-glow);
+}
+
+.modal-active {
+opacity: 1 !important;
+pointer-events: auto !important;
+overflow-y: auto;
+overscroll-behavior: contain;
+}
+
+body.modal-open {
+overflow: hidden;
+}
+
+/* Theme Buttons */
+.theme-btn {
+display: inline-block;
+flex: 0 0 14px;
+width: 14px;
+height: 14px;
+min-width: 14px;
+min-height: 14px;
+padding: 0;
+border: 0;
+border-radius: 50%;
+cursor: pointer;
+transition: transform 0.2s;
+}
+
+.theme-btn:hover {
+transform: scale(1.3);
+}
+
+/* Cinematic Sections */
+.cinematic-section {
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+justify-content: center;
+padding: 100px 24px;
+border-bottom: 1px solid var(--card-border);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+width: 6px;
+}
+
+::-webkit-scrollbar-track {
+background: #030305;
+}
+
+::-webkit-scrollbar-thumb {
+background: var(--accent-color);
+border-radius: 3px;
+}
+
+/* ================= RESPONSIVE SUPPORT ================= */
+
+.site-header {
+min-height: 68px;
+padding-top: calc(0.75rem + env(safe-area-inset-top, 0px));
+}
+
+.desktop-header-actions {
+display: flex;
+}
+
+.mobile-header-actions,
+.mobile-menu {
+display: none;
+}
+
+.mobile-menu[hidden] {
+display: none !important;
+}
+
+/* Modal support */
+#contactModal,
+#authModal {
+padding-top: max(1rem, env(safe-area-inset-top, 0px));
+padding-bottom: max(1rem, env(safe-area-inset-bottom, 0px));
+overflow-y: auto;
+-webkit-overflow-scrolling: touch;
+}
+
+#contactModal > .bento-card,
+#authModal > .bento-card {
+max-height: calc(100vh - 2rem);
+max-height: calc(
+100dvh - 2rem -
+env(safe-area-inset-top, 0px) -
+env(safe-area-inset-bottom, 0px)
+);
+overflow-y: auto;
+-webkit-overflow-scrolling: touch;
+}
+
+#toastNotification {
+max-width: min(420px, calc(100vw - 32px));
+left: 16px;
+bottom: max(16px, env(safe-area-inset-bottom, 0px));
+}
+
+/* ================= TABLET AND SMALL LAPTOP ================= */
+
+@media (max-width: 1023px) {
+html {
+scroll-padding-top: 76px;
+}
+
+.site-header {
+min-height: 66px;
+gap: 12px;
+padding-left: 16px;
+padding-right: 16px;
+}
+
+.desktop-header-actions {
+display: none !important;
+}
+
+.mobile-header-actions {
+display: flex;
+flex: 0 0 auto;
+}
+
+/* Mobile Menu Button */
+.mobile-menu-button {
+display: flex;
+width: 44px;
+height: 44px;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+gap: 5px;
+padding: 0;
+border: 1px solid rgba(255, 255, 255, 0.18);
+border-radius: 13px;
+background: rgba(255, 255, 255, 0.05);
+color: #fff;
+}
+
+.mobile-menu-button span {
+display: block;
+width: 18px;
+height: 2px;
+border-radius: 2px;
+background: currentColor;
+transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.mobile-menu-button[aria-expanded="true"] span:nth-child(1) {
+transform: translateY(7px) rotate(45deg);
+}
+
+.mobile-menu-button[aria-expanded="true"] span:nth-child(2) {
+opacity: 0;
+}
+
+.mobile-menu-button[aria-expanded="true"] span:nth-child(3) {
+transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Mobile Navigation Panel */
+.mobile-menu:not([hidden]) {
+display: block;
+position: absolute;
+top: 100%;
+left: 0;
+right: 0;
+max-height: calc(
+100dvh - 76px -
+env(safe-area-inset-top, 0px)
+);
+overflow-y: auto;
+overscroll-behavior: contain;
+padding: 14px 16px max(18px, env(safe-area-inset-bottom, 0px));
+background: rgba(5, 5, 9, 0.98);
+border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+box-shadow: 0 24px 50px rgba(0, 0, 0, 0.55);
+-webkit-overflow-scrolling: touch;
+}
+
+.mobile-menu-links {
+display: flex;
+flex-direction: column;
+gap: 2px;
+}
+
+.mobile-menu-links > a,
+.mobile-menu-links summary {
+display: flex;
+align-items: center;
+justify-content: space-between;
+min-height: 48px;
+padding: 12px 10px;
+color: #e4e4e7;
+border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+font: 700 12px/1.4 'JetBrains Mono', monospace;
+letter-spacing: 0.12em;
+text-transform: uppercase;
+list-style: none;
+}
+
+.mobile-menu-links summary::-webkit-details-marker {
+display: none;
+}
+
+.mobile-menu-links summary i {
+color: var(--accent-color);
+transition: transform 0.2s ease;
+}
+
+.mobile-menu-links details[open] summary i {
+transform: rotate(180deg);
+}
+
+.mobile-submenu {
+display: grid;
+gap: 2px;
+padding: 5px 0 10px 12px;
+border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mobile-submenu a {
+display: block;
+min-height: 42px;
+padding: 12px 10px;
+color: #a1a1aa;
+font: 500 12px/1.4 'Space Grotesk', sans-serif;
+}
+
+.mobile-menu-links a:active,
+.mobile-submenu a:active {
+color: var(--accent-color);
+}
+
+.mobile-menu-actions {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 10px;
+margin-top: 16px;
+}
+
+.mobile-menu-actions button {
+min-height: 46px;
+padding: 10px 12px;
+border: 1px solid rgba(255, 255, 255, 0.2);
+border-radius: 999px;
+color: #fff;
+background: rgba(255, 255, 255, 0.05);
+font: 700 10px/1.35 'JetBrains Mono', monospace;
+text-transform: uppercase;
+letter-spacing: 0.06em;
+}
+
+.mobile-menu-actions button:last-child {
+color: #050505;
+background: #fff;
+border-color: #fff;
+}
+
+.cinematic-section {
+min-height: auto;
+padding: 88px 20px 64px;
+}
+
+#hero.cinematic-section {
+padding-top: 104px;
+}
+
+.hero-main-title {
+font-size: clamp(2.15rem, 7vw, 4.5rem);
+line-height: 1.04;
+overflow-wrap: anywhere;
+}
+
+#services h2,
+#projects h2 {
+max-width: 100%;
+font-size: clamp(1.85rem, 5.4vw, 3rem);
+line-height: 1.08;
+overflow-wrap: anywhere;
+}
+
+.bento-card {
+min-width: 0;
+}
+}
+
+/* ================= MOBILE PHONES ================= */
+
+@media (max-width: 767px) {
+html {
+scroll-padding-top: 70px;
+}
+
+.site-header {
+min-height: 62px;
+padding-left: 12px;
+padding-right: 12px;
+}
+
+.site-header > a span {
+font-size: 17px;
+}
+
+.mobile-header-actions {
+gap: 8px;
+}
+
+.mobile-header-actions > div {
+gap: 7px;
+padding: 7px 9px;
+}
+
+.theme-btn {
+flex-basis: 12px;
+width: 12px;
+height: 12px;
+min-width: 12px;
+min-height: 12px;
+}
+
+.mobile-menu-button {
+width: 42px;
+height: 42px;
+}
+
+.mobile-menu:not([hidden]) {
+max-height: calc(
+100dvh - 62px -
+env(safe-area-inset-top, 0px)
+);
+padding-left: 12px;
+padding-right: 12px;
+}
+
+.cinematic-section {
+padding: 76px 14px 48px;
+}
+
+#hero.cinematic-section {
+padding-top: 88px;
+}
+
+#hero > .grid {
+gap: 14px;
+}
+
+.bento-card {
+border-radius: 17px;
+}
+
+#hero .bento-card {
+padding: 22px;
+}
+
+.hero-main-title {
+font-size: clamp(2rem, 9vw, 3.35rem);
+letter-spacing: -0.035em;
+}
+
+#hero .bento-card:first-child p,
+#services .bento-card p,
+#projects .bento-card p {
+font-size: 13px;
+line-height: 1.65;
+}
+
+#services .flex.justify-between.items-end,
+#projects .flex.justify-between.items-end {
+align-items: flex-start;
+margin-bottom: 26px;
+}
+
+#services h2,
+#projects h2 {
+font-size: clamp(1.7rem, 7.5vw, 2.35rem);
+line-height: 1.1;
+}
+
+#services .grid,
+#projects .grid {
+gap: 14px;
+}
+
+#services .bento-card,
+#projects .bento-card {
+padding: 22px;
+}
+
+#projects .flex.gap-2 {
+flex-wrap: wrap;
+}
+
+footer {
+padding: 48px 18px !important;
+}
+
+footer .grid {
+gap: 28px;
+}
+
+/* Mobile Modal */
+#contactModal,
+#authModal {
+align-items: flex-start;
+padding: 12px;
+}
+
+#contactModal > .bento-card,
+#authModal > .bento-card {
+width: 100%;
+max-width: 100%;
+max-height: calc(
+100dvh - 24px -
+env(safe-area-inset-top, 0px) -
+env(safe-area-inset-bottom, 0px)
+);
+padding: 22px 18px;
+margin: auto 0;
+border-radius: 18px;
+}
+
+#contactModal h3,
+#authModal h3 {
+font-size: 1.35rem;
+}
+
+#contactForm input,
+#contactForm textarea,
+#authModal input {
+min-height: 46px;
+font-size: 16px;
+}
+
+#contactForm textarea {
+min-height: 112px;
+}
+
+#toastNotification {
+left: 12px;
+right: 12px;
+bottom: max(12px, env(safe-area-inset-bottom, 0px));
+width: auto;
+max-width: none;
+gap: 10px;
+padding: 12px;
+}
+}
+
+/* ================= SMALL PHONES ================= */
+
+@media (max-width: 380px) {
+.site-header > a span {
+font-size: 15px;
+}
+
+.mobile-header-actions > div {
+gap: 5px;
+padding: 7px;
+}
+
+.mobile-menu-actions {
+grid-template-columns: 1fr;
+}
+
+#hero .bento-card {
+padding: 18px;
+}
+}
+
+/* Touchscreen Devices */
+@media (hover: none), (pointer: coarse) {
+.bento-card:hover {
+transform: none;
+border-color: var(--card-border);
+box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+}
+
+.bento-card:hover::before {
+opacity: 0;
+}
+
+.theme-btn:hover {
+transform: none;
+}
+}
+
+/* Accessibility: Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+*,
+*::before,
+*::after {
+scroll-behavior: auto !important;
+animation-duration: 0.01ms !important;
+animation-iteration-count: 1 !important;
+transition-duration: 0.01ms !important;
+}
+}
+</style>
+</head>
+
+<body class="selection:bg-red-600 selection:text-white">
+
+<div class="cyber-grid"></div>
+<div class="cyber-glow"></div>
+
+<!-- ================= CINEMATIC PRELOADER ================= -->
+
+<div id="preloader" class="fixed inset-0 bg-[#030305] z-[100000] flex flex-col justify-between p-8 md:p-16 transition-all duration-700">
+<div class="flex justify-between items-center mono-text text-xs uppercase tracking-widest border-b border-white/10 pb-4">
+<span class="text-zinc-400 flex items-center gap-2">
+<i class="fa-solid fa-microchip animate-spin text-[var(--accent-color)]"></i>
+[NOVA333X // SWISS CYBERPUNK]
+</span>
+
+<span class="text-[var(--accent-color)] animate-pulse">
+INITIALIZING MESH...
+</span>
+</div>
+
+<div class="my-auto text-center relative">
+<h1 class="font-['Syne'] text-4xl sm:text-5xl md:text-6xl font-extrabold text-white uppercase tracking-tighter mb-4 drop-shadow-[0_0_35px_var(--accent-glow)]">
+NOVA<span class="text-[var(--accent-color)]">333</span>X
+</h1>
+
+<div class="mono-text text-3xl font-bold text-[var(--accent-color)] tracking-widest mb-6" id="preloaderCounter">
+00%
+</div>
+
+<div class="max-w-xs mx-auto h-[2px] bg-white/10 relative overflow-hidden rounded-full">
+<div id="preloaderBar" class="h-full bg-[var(--accent-color)] transition-all duration-75 shadow-[0_0_15px_var(--accent-color)]" style="width: 0%;"></div>
+</div>
+</div>
+
+<div class="flex justify-between items-end mono-text text-xs text-zinc-500 uppercase border-t border-white/10 pt-4">
+<span>EDITION 2026</span>
+<span class="text-white">SYSTEM READY</span>
+</div>
+</div>
+
+<!-- ================= RESPONSIVE NAVBAR ================= -->
+
+<header class="site-header fixed top-0 left-0 w-full z-50 bg-[#030305]/90 border-b border-white/10 px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center backdrop-blur-xl">
+
+<a href="#hero" class="flex items-center gap-3 group shrink-0" aria-label="NOVA333X home">
+<span class="font-['Syne'] font-extrabold text-xl tracking-tighter text-white uppercase group-hover:text-[var(--accent-color)] transition">
+NOVA333X<span class="text-[var(--accent-color)]">.</span>
+</span>
+</a>
+
+<!-- Desktop Navigation -->
+
+<div class="desktop-header-actions items-center gap-6 text-xs uppercase tracking-widest font-mono font-bold">
+<nav class="flex gap-6 text-zinc-400 items-center" aria-label="Main navigation">
+
+<a href="index.html" class="hover:text-white transition">
+Home
+</a>
+
+<!-- Services Dropdown -->
+
+<div class="relative group py-2">
+<button type="button" class="hover:text-white transition flex items-center gap-1" aria-haspopup="true">
+Services
+<i class="fa-solid fa-chevron-down text-[9px]"></i>
+</button>
+
+<div class="dropdown-menu absolute top-full left-0 bg-[#0a0a0f] border border-white/15 p-4 w-56 rounded-2xl shadow-2xl space-y-2">
+<a href="Front Dev.html" class="block text-zinc-300 hover:text-[var(--accent-color)] transition py-1">
+Frontend Architecture
+</a>
+
+<a href="responsive.html" class="block text-zinc-300 hover:text-[var(--accent-color)] transition py-1">
+Responsive Design
+</a>
+
+<a href="landing-pages.html" class="block text-zinc-300 hover:text-[var(--accent-color)] transition py-1">
+Landing Pages
+</a>
+
+<a href="e-commerce-websites.html" class="block text-white font-bold py-1 border-t border-white/10 pt-1 text-[var(--accent-color)]">
+E-Commerce Web Site
+</a>
+</div>
+</div>
+
+<!-- Projects Dropdown -->
+
+<div class="relative group py-2">
+<button type="button" class="text-white border-b-2 border-[var(--accent-color)] pb-0.5 transition flex items-center gap-1" aria-haspopup="true">
+Projects
+<i class="fa-solid fa-chevron-down text-[9px]"></i>
+</button>
+
+<div class="dropdown-menu absolute top-full left-0 bg-[#0a0a0f] border border-white/15 p-4 w-48 rounded-2xl shadow-2xl space-y-2">
+<a href="all-projects.html" class="block text-white font-bold py-1">
+All Projects
+</a>
+
+<a href="case-studies.html" class="block text-zinc-300 hover:text-[var(--accent-color)] transition py-1">
+Case Studies
+</a>
+</div>
+</div>
+
+<a href="skills.html" class="hover:text-white transition">
+Skills
+</a>
+</nav>
+
+<div class="flex items-center gap-3">
+
+<!-- Desktop Theme Switcher -->
+
+<div class="flex items-center gap-2 px-3 py-2 bg-black/60 border border-white/10 rounded-full mr-2" aria-label="Choose accent color">
+<button type="button" class="theme-btn bg-red-500" data-set-theme="red" title="Cyber Red" aria-label="Cyber Red theme"></button>
+<button type="button" class="theme-btn bg-purple-500" data-set-theme="purple" title="Neon Purple" aria-label="Neon Purple theme"></button>
+<button type="button" class="theme-btn bg-emerald-500" data-set-theme="emerald" title="Matrix Emerald" aria-label="Matrix Emerald theme"></button>
+<button type="button" class="theme-btn bg-blue-500" data-set-theme="blue" title="Electric Blue" aria-label="Electric Blue theme"></button>
+</div>
+
+<button type="button" id="openAuthModal" class="border border-white/20 hover:border-[var(--accent-color)] rounded-full px-4 py-2 hover:bg-[var(--accent-color)] hover:text-white transition uppercase text-[11px]">
+Sign In / Register
+</button>
+
+<button type="button" id="openContactModal" class="bg-white text-black rounded-full px-5 py-2 hover:bg-[var(--accent-color)] hover:text-white transition uppercase text-[11px] font-extrabold shadow-lg">
+Contact
+</button>
+</div>
+</div>
+
+<!-- Mobile and Tablet Controls -->
+
+<div class="mobile-header-actions items-center gap-3">
+
+<div class="flex items-center gap-2 px-2.5 py-2 bg-black/60 border border-white/10 rounded-full" aria-label="Choose accent color">
+<button type="button" class="theme-btn bg-red-500" data-set-theme="red" title="Cyber Red" aria-label="Cyber Red theme"></button>
+<button type="button" class="theme-btn bg-purple-500" data-set-theme="purple" title="Neon Purple" aria-label="Neon Purple theme"></button>
+<button type="button" class="theme-btn bg-emerald-500" data-set-theme="emerald" title="Matrix Emerald" aria-label="Matrix Emerald theme"></button>
+<button type="button" class="theme-btn bg-blue-500" data-set-theme="blue" title="Electric Blue" aria-label="Electric Blue theme"></button>
+</div>
+
+<button type="button" id="mobileMenuButton" class="mobile-menu-button" aria-label="Open navigation menu" aria-controls="mobileMenu" aria-expanded="false">
+<span></span>
+<span></span>
+<span></span>
+</button>
+</div>
+
+<!-- Touch-Friendly Mobile and Tablet Navigation -->
+
+<div id="mobileMenu" class="mobile-menu" hidden>
+<nav class="mobile-menu-links" aria-label="Mobile navigation">
+
+<a href="index.html">
+Home
+</a>
+
+<details>
+<summary>
+Services
+<i class="fa-solid fa-chevron-down"></i>
+</summary>
+
+<div class="mobile-submenu">
+<a href="frontend.html">Frontend Architecture</a>
+<a href="responsive.html">Responsive Design</a>
+<a href="landing-pages.html">Landing Pages</a>
+<a href="e-commerce-websites.html">E Commerce Web Site</a>
+</div>
+</details>
+
+<details open>
+<summary>
+Projects
+<i class="fa-solid fa-chevron-down"></i>
+</summary>
+
+<div class="mobile-submenu">
+<a href="all-projects.html">All Projects</a>
+<a href="case-studies.html">Case Studies</a>
+</div>
+</details>
+
+<a href="skills.html">
+Skills
+</a>
+</nav>
+
+<div class="mobile-menu-actions">
+<button type="button" id="mobileOpenAuthModal">
+Sign In / Register
+</button>
+
+<button type="button" id="mobileOpenContactModal">
+Contact
+</button>
+</div>
+</div>
+</header>
+
+<!-- ================= SECTION 1: HERO & SWISS BENTO PROFILE ================= -->
+
+<section id="hero" class="cinematic-section max-w-7xl mx-auto pt-36">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+<!-- Bento Box 1: Profile & Identity -->
+
+<div class="lg:col-span-4 bento-card p-8 flex flex-col justify-between">
+<div>
+
+<div class="flex justify-between items-center mb-6">
+<span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/60 border border-emerald-500/40 text-emerald-400 mono-text text-[10px] uppercase">
+<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+Available for Projects
+</span>
+
+<span class="mono-text text-xs text-zinc-500">
+01 / ID
+</span>
+</div>
+
+<div class="flex items-center gap-4 mb-6">
+<div class="w-16 h-16 rounded-2xl bg-zinc-800 border-2 border-[var(--accent-color)] overflow-hidden shadow-lg">
+<img src="https://media.licdn.com/dms/image/v2/D4D03AQF0RMW2lRn0pw/profile-displayphoto-scale_400_400/B4DaBr9jzoKQAk-/0/1788517695778?e=1795651200&v=beta&t=BOtLhVWn8mgJHyiCYRZGuFuG6kL9JmMh2X6xJ2a0PBg" alt="Avatar" class="w-full h-full object-cover">
+</div>
+
+<div>
+<h2 class="font-['Syne'] text-2xl font-bold text-white">
+NOVA333X
+</h2>
+
+<p class="mono-text text-xs text-[var(--accent-color)] uppercase">
+Frontend &amp; Technical writer
+</p>
+</div>
+</div>
+
+<p class="text-xs text-zinc-400 leading-relaxed font-light mb-6">
+Building advanced, high-performance web interfaces with Swiss typography, asymmetric layouts, and zero-latency GPU rendering.
+</p>
+</div>
+
+<div class="flex flex-wrap gap-2 pt-4 border-t border-white/10 mono-text text-[10px]">
+<span class="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-zinc-300">React.js</span>
+<span class="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-zinc-300">CSS Motion</span>
+<span class="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-zinc-300">TypeScript</span>
+<span class="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-zinc-300">AI Integration</span>
+</div>
+</div>
+
+<!-- Bento Box 2: Hero Swiss Typography & Mission -->
+
+<div class="lg:col-span-8 bento-card p-8 md:p-12 flex flex-col justify-between">
+
+<div class="flex justify-between items-center mb-6">
+<span class="mono-text text-xs text-[var(--accent-color)] uppercase tracking-widest">
+// SWISS CYBERNETIC ARCHITECTURE
+</span>
+
+<span class="mono-text text-xs text-zinc-500">
+02 / VISION
+</span>
+</div>
+
+<h4 class="hero-main-title font-['Syne'] text-4xl sm:text-6xl md:text-7xl font-extrabold uppercase tracking-tight text-white mb-6 leading-none">
+Precision Code <br>
+<span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-zinc-400 to-[var(--accent-color)]">
+&amp; Motion Aesthetics
+</span>
+</h4>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-white/10">
+<div>
+<h4 class="font-['Syne'] text-sm font-bold text-white uppercase mb-1">
+Zero-Dependency Velocity
+</h4>
+
+<p class="text-xs text-zinc-400 font-light">
+Engineered without heavy framework bloat for instantaneous DOM response.
+</p>
+</div>
+
+<div>
+<h4 class="font-['Syne'] text-sm font-bold text-white uppercase mb-1">
+Cyberpunk Aesthetics
+</h4>
+
+<p class="text-xs text-zinc-400 font-light">
+Deep dark contrasts paired with neon glowing telemetry indicators.
+</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ================= SECTION 2: SERVICES & E-COMMERCE HUB ================= -->
+
+<section id="services" class="cinematic-section max-w-7xl mx-auto">
+
+<div class="flex justify-between items-end mb-12">
+<div>
+<span class="mono-text text-xs text-[var(--accent-color)] uppercase tracking-widest block mb-2">
+// CAPABILITIES
+</span>
+
+<h2 class="font-['Syne'] text-4xl sm:text-5xl font-extrabold uppercase text-white">
+Custom Solutions &amp; Case Studies
+</h2>
+</div>
+
+<span class="mono-text text-xs text-zinc-500 hidden sm:block">
+03 / SERVICES
+</span>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+<div class="bento-card p-6">
+<div class="mono-text text-xs text-[var(--accent-color)] mb-4">
+01 // UI MOTION
+</div>
+
+<h3 class="font-['Syne'] text-xl font-bold text-white uppercase mb-2">
+Interactive Interfaces
+</h3>
+
+<p class="text-xs text-zinc-400 font-light leading-relaxed">
+UX-Enhancing Smooth Animations, Micro-Interactions, and Responsive Interface Designs.
+</p>
+</div>
+
+<div class="bento-card p-6" id="ecommerce">
+<div class="mono-text text-xs text-[var(--accent-color)] mb-4">
+02 // E-COMMERCE
+</div>
+
+<h3 class="font-['Syne'] text-xl font-bold text-white uppercase mb-2">
+E-Commerce Web Site
+</h3>
+
+<p class="text-xs text-zinc-400 font-light leading-relaxed">
+High-performance online stores with secure AES cart encryption, instant filtering, and custom checkouts.
+</p>
+</div>
+
+<div class="bento-card p-6">
+<div class="mono-text text-xs text-[var(--accent-color)] mb-4">
+03 // AI TECH
+</div>
+
+<h3 class="font-['Syne'] text-xl font-bold text-white uppercase mb-2">
+AI-Powered Apps
+</h3>
+
+<p class="text-xs text-zinc-400 font-light leading-relaxed">
+Dynamic and intelligent web solutions powered by modern AI tools and API integrations.
+</p>
+</div>
+
+<div class="bento-card p-6">
+<div class="mono-text text-xs text-[var(--accent-color)] mb-4">
+04 // DOCS
+</div>
+
+<h3 class="font-['Syne'] text-xl font-bold text-white uppercase mb-2">
+Technical Docs
+</h3>
+
+<p class="text-xs text-zinc-400 font-light leading-relaxed">
+Comprehensive documentation via GitBook and Notion with Clean Code standards.
+</p>
+</div>
+</div>
+</section>
+
+<!-- ================= SECTION 3: PROJECTS & SKILLS ================= -->
+
+<section id="projects" class="cinematic-section max-w-7xl mx-auto">
+
+<div class="flex justify-between items-end mb-12">
+<div>
+<span class="mono-text text-xs text-[var(--accent-color)] uppercase tracking-widest block mb-2">
+// REPOSITORY
+</span>
+
+<h2 class="font-['Syne'] text-4xl sm:text-5xl font-extrabold uppercase text-white">
+Featured Projects
+</h2>
+</div>
+
+<span class="mono-text text-xs text-zinc-500 hidden sm:block">
+04 / WORKS
+</span>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+<div class="bento-card p-8 md:col-span-2 flex flex-col justify-between">
+<div>
+
+<span class="mono-text text-xs text-[var(--accent-color)] uppercase block mb-2">
+// 01. NEURAL ENGINE DASHBOARD
+</span>
+
+<h3 class="font-['Syne'] text-3xl font-bold text-white uppercase mb-4">
+Global Edge Radar &amp; Telemetry
+</h3>
+
+<p class="text-xs text-zinc-400 font-light leading-relaxed mb-6">
+Real-time websocket synchronization, multi-region edge nodes, and zero-latency rendering pipelines for decentralized e-commerce and portfolio traffic.
+</p>
+</div>
+
+<div class="flex gap-2 mono-text text-xs">
+<span class="px-3 py-1 rounded bg-white/5 border border-white/10 text-zinc-300">
+WebSockets
+</span>
+
+<span class="px-3 py-1 rounded bg-white/5 border border-white/10 text-zinc-300">
+Geo-DNS
+</span>
+</div>
+</div>
+
+<div class="bento-card p-8 flex flex-col justify-between" id="skills">
+<div>
+
+<span class="mono-text text-xs text-[var(--accent-color)] uppercase block mb-2">
+// 02. SKILL MATRIX
+</span>
+
+<h3 class="font-['Syne'] text-2xl font-bold text-white uppercase mb-4">
+Technical Stack
+</h3>
+
+<ul class="space-y-2 text-xs font-mono text-zinc-300">
+<li>✦ HTML5 / Vanilla JavaScript</li>
+<li>✦ Tailwind CSS &amp; Custom Grid</li>
+<li>✦ GitBook &amp; Notion Docs</li>
+<li>✦ AI Prototyping (Claude/Cursor)</li>
+</ul>
+</div>
+
+<div class="pt-4 border-t border-white/10 text-[10px] mono-text text-zinc-500">
+STATUS: PRODUCTION READY
+</div>
+</div>
+</div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="border-t border-white/10 bg-[#020204] py-16 px-6">
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+
+<div>
+<h4 class="font-['Syne'] text-lg font-bold text-white uppercase mb-2">
+NOVA333X<span class="text-[var(--accent-color)]">.</span>
+</h4>
+
+<p class="text-xs text-zinc-400 font-light">
+Cyberpunk Swiss Portfolio &amp; Bento Studio Architecture.
+</p>
+</div>
+
+<div>
+<span class="mono-text text-[10px] text-zinc-500 uppercase block mb-3">
+// PLATFORMS
+</span>
+
+<ul class="space-y-2 text-xs font-mono text-zinc-300">
+<li>
+<a href="https://github.com/yusufiexweb" target="_blank" rel="noopener noreferrer" class="hover:text-[var(--accent-color)] transition">
+GitHub / yusufiexweb
+</a>
+</li>
+
+<li>
+<a href="https://www.upwork.com" target="_blank" rel="noopener noreferrer" class="hover:text-[var(--accent-color)] transition">
+Upwork Network
+</a>
+</li>
+
+<li>
+<a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" class="hover:text-[var(--accent-color)] transition">
+LinkedIn Profile
+</a>
+</li>
+</ul>
+</div>
+
+<div>
+<span class="mono-text text-[10px] text-zinc-500 uppercase block mb-3">
+// DOCUMENTATION
+</span>
+
+<ul class="space-y-2 text-xs font-mono text-zinc-300">
+<li>
+<a href="#" class="hover:text-[var(--accent-color)] transition">
+GitBook Notes
+</a>
+</li>
+
+<li>
+<a href="#" class="hover:text-[var(--accent-color)] transition">
+Notion Workspace
+</a>
+</li>
+</ul>
+</div>
+
+<div>
+<span class="mono-text text-[10px] text-zinc-500 uppercase block mb-3">
+// SYSTEM
+</span>
+
+<p class="text-xs font-mono text-zinc-400">
+© 2026 NOVA333X. ALL RIGHTS RESERVED.
+</p>
+</div>
+</div>
+</footer>
+
+<!-- ================= CONTACT MODAL ================= -->
+
+<div id="contactModal" class="fixed inset-0 bg-black/90 backdrop-blur-xl z-[100001] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
+
+<div class="bento-card border border-white/20 w-full max-w-lg p-8 relative shadow-2xl my-auto">
+
+<button type="button" id="closeContactModal" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-white/10 hover:bg-[var(--accent-color)] text-white flex items-center justify-center transition text-lg font-bold">
+&times;
+</button>
+
+<div class="mb-6">
+<h3 class="font-['Syne'] text-2xl font-bold text-white mb-1">
+Contact Me
+</h3>
+
+<p class="text-xs text-zinc-400 font-mono">
+Want to discuss your project? Fill out the form below.
+</p>
+</div>
+
+<form id="contactForm" class="space-y-4 font-mono text-xs">
+
+<div>
+<label class="text-zinc-400 uppercase block mb-1">
+Your Name
+</label>
+
+<input type="text" required placeholder="Name and Surname" class="w-full bg-[#141424] border border-white/10 rounded-xl px-4 py-3 text-white focus:border-[var(--accent-color)] focus:outline-none">
+</div>
+
+<div>
+<label class="text-zinc-400 uppercase block mb-1">
+Email Address
+</label>
+
+<input type="email" required placeholder="name@domain.com" class="w-full bg-[#141424] border border-white/10 rounded-xl px-4 py-3 text-white focus:border-[var(--accent-color)] focus:outline-none">
+</div>
+
+<div>
+<label class="text-zinc-400 uppercase block mb-1">
+Your Message
+</label>
+
+<textarea rows="4" required placeholder="Tell me about your project..." class="w-full bg-[#141424] border border-white/10 rounded-xl px-4 py-3 text-white focus:border-[var(--accent-color)] focus:outline-none"></textarea>
+</div>
+
+<button type="submit" class="w-full bg-[var(--accent-color)] text-white py-4 rounded-xl font-bold uppercase tracking-widest hover:opacity-90 transition shadow-lg">
+Send Message
+</button>
+</form>
+</div>
+</div>
+
+<!-- ================= AUTH MODAL ================= -->
+
+<div id="authModal" class="fixed inset-0 bg-black/90 backdrop-blur-xl z-[100001] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
+
+<div class="bento-card border border-white/20 w-full max-w-md p-8 relative shadow-2xl my-auto">
+
+<button type="button" id="closeAuthModal" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-white/10 hover:bg-[var(--accent-color)] text-white flex items-center justify-center transition text-lg font-bold">
+&times;
+</button>
+
+<div class="text-center mb-6">
+<h3 class="font-['Syne'] text-2xl font-bold uppercase text-white">
+STUDIO PORTAL
+</h3>
+
+<p class="mono-text text-[10px] text-[var(--accent-color)] tracking-widest mt-1">
+SECURE ACCESS &amp; VERIFICATION
+</p>
+</div>
+
+<div class="flex border-b border-white/10 mb-6 mono-text text-xs text-center">
+
+<button type="button" id="tabSignIn" class="w-1/2 pb-3 border-b-2 border-[var(--accent-color)] text-white font-bold">
+SIGN IN
+</button>
+
+<button type="button" id="tabSignUp" class="w-1/2 pb-3 border-b-2 border-transparent text-zinc-500 hover:text-zinc-300">
+REGISTER
+</button>
+</div>
+
+<div id="authErrorBanner" class="hidden mb-4 p-3 rounded-xl bg-red-950/60 border border-red-500/40 text-red-300 text-[11px] mono-text"></div>
+
+<!-- Sign In Form -->
+
+<form id="signInForm" class="space-y-4 font-mono text-xs">
+
+<div>
+<label class="text-zinc-400 uppercase block mb-1">
+Email
+</label>
+
+<input type="email" id="signInEmail" placeholder="client@studio.com" class="w-full bg-[#141424] border border-white/10 rounded-xl px-4 py-3 text-white focus:border-[var(--accent-color)] focus:outline-none">
+</div>
+
+<div>
+<label class="text-zinc-400 uppercase block mb-1">
+Password
+</label>
+
+<input type="password" id="signInPassword" placeholder="••••••••" class="w-full bg-[#141424] border border-white/10 rounded-xl px-4 py-3 text-white focus:border-[var(--accent-color)] focus:outline-none">
+</div>
+
+<button type="submit" class="w-full bg-[var(--accent-color)] text-white py-3.5 rounded-xl font-bold uppercase tracking-widest hover:opacity-90 transition mt-2 shadow-lg">
+Access Account
+</button>
+</form>
+
+<!-- Sign Up Form -->
+
+<form id="signUpForm" class="space-y-4 font-mono text-xs hidden">
+
+<div>
+<label class="text-zinc-400 uppercase block mb-1">
+Full Name
+</label>
+
+<input type="text" id="signUpName" placeholder="John Doe" class="w-full bg-[#141424] border border-white/10 rounded-xl px-4 py-3 text-white focus:border-[var(--accent-color)] focus:outline-none">
+</div>
+
+<div>
+<label class="text-zinc-400 uppercase block mb-1">
+Email Address
+</label>
+
+<input type="email" id="signUpEmail" placeholder="user@domain.com" class="w-full bg-[#141424] border border-white/10 rounded-xl px-4 py-3 text-white focus:border-[var(--accent-color)] focus:outline-none">
+</div>
+
+<div>
+<label class="text-zinc-400 uppercase block mb-1">
+Password (Min. 6 chars)
+</label>
+
+<input type="password" id="signUpPassword" placeholder="••••••••" class="w-full bg-[#141424] border border-white/10 rounded-xl px-4 py-3 text-white focus:border-[var(--accent-color)] focus:outline-none">
+</div>
+
+<button type="submit" class="w-full bg-[var(--accent-color)] text-white py-3.5 rounded-xl font-bold uppercase tracking-widest hover:opacity-90 transition mt-2 shadow-lg">
+Register Account
+</button>
+</form>
+</div>
+</div>
+
+<!-- Toast Notification -->
+
+<div id="toastNotification" class="fixed bottom-6 left-6 bg-[#0a0a0f] border border-[var(--accent-color)] rounded-2xl p-4 shadow-2xl z-[100003] flex items-center gap-4 transform translate-y-20 opacity-0 transition-all duration-300 font-mono text-xs">
+
+<div class="w-8 h-8 rounded-lg bg-[var(--accent-color)]/20 border border-[var(--accent-color)] flex items-center justify-center text-[var(--accent-color)]">
+<i class="fa-solid fa-check"></i>
+</div>
+
+<div>
+<h4 class="font-bold text-white" id="toastTitle">
+Notification
+</h4>
+
+<p class="text-zinc-400" id="toastSub">
+Action completed successfully.
+</p>
+</div>
+</div>
+
+<!-- ================= JAVASCRIPT LOGIC ================= -->
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+const $ = (selector, root = document) => root.querySelector(selector);
+const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
+
+// Theme Switcher System.
+// Works in both desktop and mobile navigation.
+
+$$('[data-set-theme]').forEach((btn) => {
+btn.addEventListener('click', () => {
+const theme = btn.getAttribute('data-set-theme');
+
+if (theme) {
+document.documentElement.setAttribute('data-theme', theme);
+}
+});
+});
+
+// Bento Card Glow.
+// Mouse interaction is disabled on touch devices.
+
+if (
+window.matchMedia &&
+window.matchMedia('(hover: hover) and (pointer: fine)').matches
+) {
+$$('.bento-card').forEach((card) => {
+
+card.addEventListener('mousemove', (event) => {
+const rect = card.getBoundingClientRect();
+
+card.style.setProperty(
+'--mouse-x',
+`${event.clientX - rect.left}px`
+);
+
+card.style.setProperty(
+'--mouse-y',
+`${event.clientY - rect.top}px`
+);
+});
+});
+}
+
+// Mobile and Tablet Navigation.
+
+const mobileMenuButton = $('#mobileMenuButton');
+const mobileMenu = $('#mobileMenu');
+
+function closeMobileMenu() {
+if (!mobileMenu || !mobileMenuButton) return;
+
+mobileMenu.hidden = true;
+
+mobileMenuButton.setAttribute('aria-expanded', 'false');
+mobileMenuButton.setAttribute(
+'aria-label',
+'Open navigation menu'
+);
+}
+
+function openMobileMenu() {
+if (!mobileMenu || !mobileMenuButton) return;
+
+mobileMenu.hidden = false;
+
+mobileMenuButton.setAttribute('aria-expanded', 'true');
+mobileMenuButton.setAttribute(
+'aria-label',
+'Close navigation menu'
+);
+}
+
+if (mobileMenuButton && mobileMenu) {
+
+mobileMenuButton.addEventListener('click', () => {
+
+const isOpen =
+mobileMenuButton.getAttribute('aria-expanded') === 'true';
+
+if (isOpen) {
+closeMobileMenu();
+} else {
+openMobileMenu();
+}
+});
+
+// Close menu after choosing a navigation link.
+
+$$('.mobile-menu a', mobileMenu).forEach((link) => {
+link.addEventListener('click', closeMobileMenu);
+});
+
+// Close menu when tapping outside.
+
+document.addEventListener('click', (event) => {
+
+if (
+!mobileMenu.hidden &&
+!mobileMenu.contains(event.target) &&
+!mobileMenuButton.contains(event.target)
+) {
+closeMobileMenu();
+}
+});
+
+// Close menu with Escape key.
+
+document.addEventListener('keydown', (event) => {
+if (event.key === 'Escape') {
+closeMobileMenu();
+}
+});
+
+// Close menu after switching to desktop width.
+
+window.addEventListener('resize', () => {
+if (window.innerWidth >= 1024) {
+closeMobileMenu();
+}
+}, { passive: true });
+}
+
+// Preloader Logic.
+
+const preloader = $('#preloader');
+const preloaderCounter = $('#preloaderCounter');
+const preloaderBar = $('#preloaderBar');
+
+if (preloader && preloaderCounter && preloaderBar) {
+
+let percent = 0;
+
+const counterInterval = window.setInterval(() => {
+
+percent += Math.floor(Math.random() * 6) + 4;
+
+if (percent >= 100) {
+
+percent = 100;
+
+preloaderCounter.textContent = '100%';
+preloaderBar.style.width = '100%';
+
+window.clearInterval(counterInterval);
+
+window.setTimeout(() => {
+
+preloader.style.opacity = '0';
+
+window.setTimeout(() => {
+preloader.style.display = 'none';
+}, 700);
+
+}, 400);
+
+} else {
+
+preloaderCounter.textContent =
+(percent < 10? '0' : '') + percent + '%';
+
+preloaderBar.style.width = percent + '%';
+}
+
+}, 40);
+}
+
+// Toast Notification.
+
+const toast = $('#toastNotification');
+let toastTimer;
+
+function showToast(title, sub) {
+
+const toastTitle = $('#toastTitle');
+const toastSub = $('#toastSub');
+
+if (!toast || !toastTitle || !toastSub) return;
+
+toastTitle.textContent = title;
+toastSub.textContent = sub;
+
+toast.classList.remove('translate-y-20', 'opacity-0');
+
+window.clearTimeout(toastTimer);
+
+toastTimer = window.setTimeout(() => {
+toast.classList.add('translate-y-20', 'opacity-0');
+}, 3000);
+}
+
+// Modal Helpers.
+
+function openModal(modal) {
+
+if (modal) {
+modal.classList.add('modal-active');
+document.body.classList.add('modal-open');
+}
+
+closeMobileMenu();
+}
+
+function closeModal(modal) {
+
+if (modal) {
+modal.classList.remove('modal-active');
+}
+
+if (!document.querySelector('.modal-active')) {
+document.body.classList.remove('modal-open');
+}
+}
+
+const contactModal = $('#contactModal');
+const authModal = $('#authModal');
+
+// Open Contact Modal.
+
+$('#openContactModal')?.addEventListener('click', () => {
+openModal(contactModal);
+});
+
+$('#mobileOpenContactModal')?.addEventListener('click', () => {
+openModal(contactModal);
+});
+
+// Close Contact Modal.
+
+$('#closeContactModal')?.addEventListener('click', () => {
+closeModal(contactModal);
+});
+
+// Contact Form.
+
+$('#contactForm')?.addEventListener('submit', function (event) {
+
+event.preventDefault();
+
+closeModal(contactModal);
+
+showToast(
+'Message Sent',
+'Your inquiry has been transmitted successfully.'
+);
+
+this.reset();
+});
+
+// Auth Modal and Validation.
+
+const openAuthModal = $('#openAuthModal');
+const closeAuthModal = $('#closeAuthModal');
+
+const tabSignIn = $('#tabSignIn');
+const tabSignUp = $('#tabSignUp');
+
+const signInForm = $('#signInForm');
+const signUpForm = $('#signUpForm');
+
+const errorBanner = $('#authErrorBanner');
+
+function resetAuthError() {
+errorBanner?.classList.add('hidden');
+}
+
+function showAuthError(message) {
+
+if (!errorBanner) return;
+
+errorBanner.textContent = 'ERROR: ' + message;
+errorBanner.classList.remove('hidden');
+}
+
+// Open Authentication Modal.
+
+openAuthModal?.addEventListener('click', () => {
+
+resetAuthError();
+openModal(authModal);
+});
+
+$('#mobileOpenAuthModal')?.addEventListener('click', () => {
+
+resetAuthError();
+openModal(authModal);
+});
+
+// Close Authentication Modal.
+
+closeAuthModal?.addEventListener('click', () => {
+closeModal(authModal);
+});
+
+// Sign In Tab.
+
+function showSignInTab() {
+
+if (
+!tabSignIn ||
+!tabSignUp ||
+!signInForm ||
+!signUpForm
+) {
+return;
+}
+
+tabSignIn.className =
+'w-1/2 pb-3 border-b-2 border-[var(--accent-color)] text-white font-bold';
+
+tabSignUp.className =
+'w-1/2 pb-3 border-b-2 border-transparent text-zinc-500 hover:text-zinc-300';
+
+signInForm.classList.remove('hidden');
+signUpForm.classList.add('hidden');
+
+resetAuthError();
+}
+
+// Sign Up Tab.
+
+function showSignUpTab() {
+
+if (
+!tabSignIn ||
+!tabSignUp ||
+!signInForm ||
+!signUpForm
+) {
+return;
+}
+
+tabSignUp.className =
+'w-1/2 pb-3 border-b-2 border-[var(--accent-color)] text-white font-bold';
+
+tabSignIn.className =
+'w-1/2 pb-3 border-b-2 border-transparent text-zinc-500 hover:text-zinc-300';
+
+signUpForm.classList.remove('hidden');
+signInForm.classList.add('hidden');
+
+resetAuthError();
+}
+
+tabSignIn?.addEventListener('click', showSignInTab);
+tabSignUp?.addEventListener('click', showSignUpTab);
+
+// Email Validation.
+
+function isValidEmail(email) {
+return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+// Sign In Form Validation.
+
+signInForm?.addEventListener('submit', (event) => {
+
+event.preventDefault();
+
+const email = $('#signInEmail')?.value.trim() || '';
+const password = $('#signInPassword')?.value || '';
+
+if (!email || !password) {
+
+showAuthError('Please fill in all required fields!');
+return;
+}
+
+if (!isValidEmail(email)) {
+
+showAuthError('Invalid email format!');
+return;
+}
+
+resetAuthError();
+
+closeModal(authModal);
+
+showToast(
+'Access Granted',
+'Logged into portfolio portal.'
+);
+
+signInForm.reset();
+});
+
+// Sign Up Form Validation.
+
+signUpForm?.addEventListener('submit', (event) => {
+
+event.preventDefault();
+
+const name = $('#signUpName')?.value.trim() || '';
+const email = $('#signUpEmail')?.value.trim() || '';
+const password = $('#signUpPassword')?.value || '';
+
+if (!name || !email || !password) {
+
+showAuthError('All fields are required!');
+return;
+}
+
+if (name.length < 3) {
+
+showAuthError('Name must be at least 3 characters!');
+return;
+}
+
+if (!isValidEmail(email)) {
+
+showAuthError('Invalid email format!');
+return;
+}
+
+if (password.length < 6) {
+
+showAuthError('Password must be at least 6 characters!');
+return;
+}
+
+resetAuthError();
+
+closeModal(authModal);
+
+showToast(
+'Registered',
+'Studio account created successfully.'
+);
+
+signUpForm.reset();
+});
+
+// Close Modals by Tapping the Background.
+
+[contactModal, authModal].forEach((modal) => {
+
+modal?.addEventListener('click', (event) => {
+
+if (event.target === modal) {
+closeModal(modal);
+}
+});
+});
+
+// Close Modals with Escape Key.
+
+document.addEventListener('keydown', (event) => {
+
+if (event.key === 'Escape') {
+
+closeModal(contactModal);
+closeModal(authModal);
+}
+});
+});
+</script>
+
+</body>
+</html>
